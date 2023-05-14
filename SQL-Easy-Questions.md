@@ -106,7 +106,7 @@ WHERE NOT EXISTS (\
   WHERE likes.page_id = pages.page_id\
 );
 
-/
-/
-  **My reflections: after looking at Data Lemur's sol'ns, I definitely overthought this one.**/
+\
+\
+  **My reflections: after looking at Data Lemur's sol'ns, I definitely overthought this one.**\
   **May be time to have a formal lesson on different join types and really understand how they function.**
