@@ -105,6 +105,7 @@ WHERE NOT EXISTS (\
   FROM page_likes AS likes\
   WHERE likes.page_id = pages.page_id\
 );
+
 /
 /
   **My reflections: after looking at Data Lemur's sol'ns, I definitely overthought this one.**/
