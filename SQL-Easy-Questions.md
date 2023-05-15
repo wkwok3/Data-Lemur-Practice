@@ -85,7 +85,7 @@ Solution #2: Using EXCEPT
 FROM pages\
 EXCEPT\
 SELECT page_id\
-FROM page_likes;\
+FROM page_likes;
 
 Solution #3: Using NOT IN
 
@@ -169,7 +169,7 @@ FROM (SELECT user_id,\
       FROM tweets\
       WHERE tweet_date BETWEEN '2022-01-01' AND '2022-12-31'\ 
       GROUP BY user_id) tweets_cte\
-GROUP BY tweets_cte.tweets_num;\
+GROUP BY tweets_cte.tweets_num;
 
 *Solution*
 
@@ -181,7 +181,7 @@ First, we need to find the number of tweets posted by each user in 2022 by group
 FROM tweets\ 
 WHERE tweet_date BETWEEN '2022-01-01'\ 
   AND '2022-12-31'\
-GROUP BY user_id;\
+GROUP BY user_id;
 
 The output shows the number of tweets posted by each user in 2022:
 |	user_id	|	tweet_count_per_user |
@@ -197,15 +197,15 @@ Next, we use the query above as a subquery, then we use the tweet_count_per_user
 > SELECT\ 
   tweet_count_per_user AS tweet_bucket,\ 
   COUNT(user_id) AS users_num\ 
-FROM (\
-  SELECT\ 
-    user_id,\ 
-    COUNT(tweet_id) AS tweet_count_per_user\ 
-  FROM tweets\ 
-  WHERE tweet_date BETWEEN '2022-01-01'\ 
-    AND '2022-12-31'\
-  GROUP BY user_id) AS total_tweets\ 
-GROUP BY tweet_count_per_user;\
+  FROM (\
+    SELECT\ 
+      user_id,\ 
+      COUNT(tweet_id) AS tweet_count_per_user\ 
+    FROM tweets\ 
+    WHERE tweet_date BETWEEN '2022-01-01'\ 
+      AND '2022-12-31'\
+    GROUP BY user_id) AS total_tweets\
+  GROUP BY tweet_count_per_user;
 
 This query generates a histogram of the number of tweets per user in 2022. The output shows the tweet count per user as the tweet bucket and the number of Twitter users who fall into that bucket.
 | tweet_bucket	| users_num |
@@ -222,19 +222,19 @@ The benefits of using a CTE are that it is more readable and can be reused throu
 Solution #2: Using CTE
 
 > WITH total_tweets AS (\
-  SELECT\ 
-    user_id,\ 
-    COUNT(tweet_id) AS tweet_count_per_user\
-  FROM tweets\ 
-  WHERE tweet_date BETWEEN '2022-01-01'\ 
-    AND '2022-12-31'\ 
-  GROUP BY user_id)\ 
+    SELECT\ 
+      user_id,\ 
+      COUNT(tweet_id) AS tweet_count_per_user\
+    FROM tweets\ 
+    WHERE tweet_date BETWEEN '2022-01-01'\ 
+      AND '2022-12-31'\ 
+    GROUP BY user_id)\ 
   
 > SELECT\ 
-  tweet_count_per_user AS tweet_bucket\ 
+    tweet_count_per_user AS tweet_bucket\ 
   COUNT(user_id) AS users_num\ 
-FROM total_tweets\ 
-GROUP BY tweet_count_per_user;\
+  FROM total_tweets\ 
+  GROUP BY tweet_count_per_user;\
 
   **My reflections: had a surprisingly hard time with this one.**\
   **I was on the right track with using the CTE and/or subquery but got tripped up.**
